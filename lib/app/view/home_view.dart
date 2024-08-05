@@ -198,17 +198,22 @@ class CitiesWithAZWidget extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: InkWell(
-                              onTap: () {
-                                searchController.clear();
-                                context.read<LocationCubit>().getCities();
-                              },
-                              child: const Row(
-                                children: [
-                                  Icon(Icons.close),
-                                  Text('Clear All'),
-                                ],
-                              ),
+                            child: Row(
+                              children: [
+                                MaterialButton(
+                                  onPressed: () {
+                                    searchController.clear();
+                                    context.read<LocationCubit>().getCities();
+                                  },
+                                  child: const Row(
+                                    children: [
+                                      Icon(Icons.close),
+                                      Text('Clear All'),
+                                    ],
+                                  ),
+                                ),
+                                const Spacer()
+                              ],
                             ),
                           ),
                           Expanded(
@@ -238,7 +243,7 @@ class CitiesWithAZWidget extends StatelessWidget {
                         ],
                       );
                     }
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   },
                 ),
               );
