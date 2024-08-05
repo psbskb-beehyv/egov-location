@@ -1,8 +1,8 @@
 import 'package:country_state_city/models/city.dart';
+import 'package:egov/app/cubit/get_az_list_cubit.dart';
 import 'package:egov/app/cubit/hide_cubit.dart';
 import 'package:egov/app/cubit/location_cubit.dart';
 import 'package:egov/app/cubit/min_cubit.dart';
-import 'package:egov/app/handlers/common_handler.dart';
 import 'package:egov/app/handlers/locations_handler.dart';
 import 'package:egov/app/states/custom_state.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/az_list_widget.dart';
 import '../widgets/cities_widget.dart';
 
-TextEditingController searchController = TextEditingController();
+final TextEditingController searchController = TextEditingController();
 final ScrollController scrollController = ScrollController();
-List<String> azList = CommonHandler.getAZList();
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -30,6 +29,9 @@ class HomeView extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => HideCubit(),
+            ),
+            BlocProvider(
+              create: (context) => AZListCubit()..getList(),
             ),
             BlocProvider(
               create: (context) => LocationCubit()..getCities(),
@@ -182,6 +184,11 @@ class CitiesWithAZWidget extends StatelessWidget {
                         hintText: 'Filter Location',
                       ),
                       onChanged: (value) {
+                        if (value.isNotEmpty) {
+                          context.read<AZListCubit>().getList(value);
+                        } else {
+                          context.read<AZListCubit>().getList();
+                        }
                         context.read<LocationCubit>().getCities(value);
                       },
                     ),
@@ -212,7 +219,7 @@ class CitiesWithAZWidget extends StatelessWidget {
                                 cities: cities,
                               ),
                               Align(
-                                alignment: Alignment.centerRight,
+                                alignment: Alignment.topRight,
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: Theme.of(context)
@@ -220,7 +227,6 @@ class CitiesWithAZWidget extends StatelessWidget {
                                           .primaryContainer,
                                       borderRadius: BorderRadius.circular(10)),
                                   child: AZListWidget(
-                                    azList: azList,
                                     cities: cities,
                                     searchController: searchController,
                                     scrollController: scrollController,

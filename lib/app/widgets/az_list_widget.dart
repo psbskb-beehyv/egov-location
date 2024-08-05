@@ -1,16 +1,16 @@
 import 'package:country_state_city/models/city.dart';
+import 'package:egov/app/cubit/get_az_list_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AZListWidget extends StatelessWidget {
   const AZListWidget({
     super.key,
-    required this.azList,
     required this.cities,
     required this.searchController,
     required this.scrollController,
   });
 
-  final List<String> azList;
   final List<City> cities;
   final TextEditingController searchController;
   final ScrollController scrollController;
@@ -29,27 +29,48 @@ class AZListWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: SizedBox(
         width: 40,
-        child: ListView.builder(
-            itemCount: azList.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) {
-              return Center(
-                child: MaterialButton(
-                    minWidth: 40,
-                    height: 40,
-                    elevation: 0,
-                    padding: const EdgeInsets.all(0),
-                    onPressed: () {
-                      int i = (cities.indexWhere((element) {
-                        return (element.name[0].toLowerCase() == azList[index]);
-                      }));
-                      animateToIndex(i < 0 ? 0 : i);
-                    },
-                    child: Text(
-                      azList[index],
-                    )),
-              );
-            }),
+        child: BlocBuilder<AZListCubit, List<String>>(
+          builder: (context, azList) {
+            if (azList.length == 1) {
+              return MaterialButton(
+                  minWidth: 40,
+                  height: 40,
+                  elevation: 0,
+                  padding: const EdgeInsets.all(0),
+                  onPressed: () {
+                    int i = (cities.indexWhere((element) {
+                      return (element.name[0].toLowerCase() == azList.first);
+                    }));
+                    animateToIndex(i < 0 ? 0 : i);
+                  },
+                  child: Text(
+                    azList.first,
+                  ));
+            }
+            return ListView.builder(
+                itemCount: azList.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  return Center(
+                    child: MaterialButton(
+                        minWidth: 40,
+                        height: 40,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(0),
+                        onPressed: () {
+                          int i = (cities.indexWhere((element) {
+                            return (element.name[0].toLowerCase() ==
+                                azList[index]);
+                          }));
+                          animateToIndex(i < 0 ? 0 : i);
+                        },
+                        child: Text(
+                          azList[index],
+                        )),
+                  );
+                });
+          },
+        ),
       ),
     );
   }
