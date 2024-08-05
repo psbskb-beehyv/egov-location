@@ -3,7 +3,6 @@ import 'package:egov/app/cubit/get_az_list_cubit.dart';
 import 'package:egov/app/cubit/hide_cubit.dart';
 import 'package:egov/app/cubit/location_cubit.dart';
 import 'package:egov/app/cubit/min_cubit.dart';
-import 'package:egov/app/handlers/locations_handler.dart';
 import 'package:egov/app/states/custom_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +18,6 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LocationHandler.getLocation();
     return SafeArea(
       child: Scaffold(
         body: MultiBlocProvider(
