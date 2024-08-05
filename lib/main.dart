@@ -1,4 +1,4 @@
-import 'package:egov/app/view/home_view.dart';
+import 'package:egov/app/view/init_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,12 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'EGov',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
-      ),
-      home: const HomeView(),
-    );
+        title: 'EGov',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+          useMaterial3: true,
+        ),
+        home: const InitView());
   }
 }

@@ -1,9 +1,9 @@
 import 'package:country_state_city/models/city.dart';
-import 'package:country_state_city/utils/utils.dart';
+import 'package:egov/app/init/location_init.dart';
 
 class LocationHandler {
   static Future<List<City>> getLocation([String? name]) async {
-    List<City> cities = await getAllCities();
+    List<City> cities = LocationInit.instance.cities;
     List<City> subCities = cities.sublist(0, 10000);
     subCities.sort((a, b) => a.name.compareTo(b.name));
     List<City> filterCities = [];

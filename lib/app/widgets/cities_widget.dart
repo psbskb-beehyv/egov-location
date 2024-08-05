@@ -1,5 +1,6 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:country_state_city/models/city.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class CitiesWidget extends StatelessWidget {
@@ -13,26 +14,40 @@ class CitiesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        controller: scrollController,
-        itemCount: cities.length,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            height: 40,
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: CountryFlag.fromCountryCode(
-                    cities[index].countryCode,
-                    shape: const RoundedRectangle(3),
-                  ),
+    return cities.isEmpty
+        ? Center(
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.location_city_rounded,
+                size: 50,
+              ),
+              const Text('Cities Not Available'),
+            ],
+          ))
+        : ListView.builder(
+            controller: scrollController,
+            itemCount: cities.length,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 40,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: CountryFlag.fromCountryCode(
+                        cities[index].countryCode,
+                        shape: const RoundedRectangle(3),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                        '${cities[index].name} - ${cities[index].countryCode}'),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                Text('${cities[index].name} - ${cities[index].countryCode}'),
-              ],
-            ),
-          );
-        });
+              );
+            });
   }
 }

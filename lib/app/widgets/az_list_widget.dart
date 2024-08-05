@@ -33,46 +33,57 @@ class AZListWidget extends StatelessWidget {
         width: 40,
         child: BlocBuilder<AZListCubit, List<String>>(
           builder: (context, azList) {
+            if (cities.isEmpty) return Container();
             if (azList.length == 1) {
-              return MaterialButton(
-                  minWidth: 40,
-                  height: 40,
-                  elevation: 0,
-                  padding: const EdgeInsets.all(0),
-                  onPressed: () {
-                    int i = (cities.indexWhere((element) {
-                      return (element.name[0].toLowerCase() == azList.first);
-                    }));
-                    if (i >= 0) {
-                      animateToIndex(i);
-                    }
-                  },
-                  child: Text(
-                    azList.first,
-                  ));
+              return Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(10)),
+                child: MaterialButton(
+                    minWidth: 40,
+                    height: 40,
+                    elevation: 0,
+                    padding: const EdgeInsets.all(0),
+                    onPressed: () {
+                      int i = (cities.indexWhere((element) {
+                        return (element.name[0].toLowerCase() == azList.first);
+                      }));
+                      if (i >= 0) {
+                        animateToIndex(i);
+                      }
+                    },
+                    child: Text(
+                      azList.first,
+                    )),
+              );
             }
-            return ListView.builder(
-                itemCount: azList.length,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return Center(
-                    child: MaterialButton(
-                        minWidth: 40,
-                        height: 40,
-                        elevation: 0,
-                        padding: const EdgeInsets.all(0),
-                        onPressed: () {
-                          int i = (cities.indexWhere((element) {
-                            return (element.name[0].toLowerCase() ==
-                                azList[index]);
-                          }));
-                          animateToIndex(i < 0 ? 0 : i);
-                        },
-                        child: Text(
-                          azList[index],
-                        )),
-                  );
-                });
+            return Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(10)),
+              child: ListView.builder(
+                  itemCount: azList.length,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    return Center(
+                      child: MaterialButton(
+                          minWidth: 40,
+                          height: 40,
+                          elevation: 0,
+                          padding: const EdgeInsets.all(0),
+                          onPressed: () {
+                            int i = (cities.indexWhere((element) {
+                              return (element.name[0].toLowerCase() ==
+                                  azList[index]);
+                            }));
+                            animateToIndex(i < 0 ? 0 : i);
+                          },
+                          child: Text(
+                            azList[index],
+                          )),
+                    );
+                  }),
+            );
           },
         ),
       ),

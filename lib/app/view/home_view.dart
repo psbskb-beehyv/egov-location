@@ -226,11 +226,6 @@ class CitiesWithAZWidget extends StatelessWidget {
                               Align(
                                 alignment: Alignment.topRight,
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primaryContainer,
-                                      borderRadius: BorderRadius.circular(10)),
                                   child: AZListWidget(
                                     cities: cities,
                                     searchController: searchController,
