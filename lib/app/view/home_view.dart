@@ -1,5 +1,5 @@
 import 'package:country_state_city/models/city.dart';
-import 'package:egov/app/cubit/get_az_list_cubit.dart';
+import 'package:egov/app/cubit/az_list_cubit.dart';
 import 'package:egov/app/cubit/hide_cubit.dart';
 import 'package:egov/app/cubit/location_cubit.dart';
 import 'package:egov/app/cubit/min_cubit.dart';
@@ -167,49 +167,51 @@ class CitiesWithAZWidget extends StatelessWidget {
         return state == true
             ? Container()
             : Expanded(
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: searchController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Colors.black,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        hintText: 'Filter Location',
-                      ),
-                      onChanged: (value) {
-                        if (value.isNotEmpty) {
-                          context.read<AZListCubit>().getList(value);
-                        } else {
-                          context.read<AZListCubit>().getList();
-                        }
-                        context.read<LocationCubit>().getCities(value);
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: InkWell(
-                        onTap: () {
-                          searchController.clear();
-                          context.read<LocationCubit>().getCities();
-                        },
-                        child: const Row(
-                          children: [
-                            Icon(Icons.close),
-                            Text('Clear All'),
-                          ],
-                        ),
-                      ),
-                    ),
-                    BlocBuilder<LocationCubit, CustomState>(
-                      builder: (context, state) {
-                        if (state is DataState) {
-                          List<City> cities = state.data;
-                          return Expanded(
+                child: BlocBuilder<LocationCubit, CustomState>(
+                  builder: (context, state) {
+                    if (state is DataState) {
+                      List<City> cities = state.data;
+                      return Column(
+                        children: [
+                          TextField(
+                            controller: searchController,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(
+                                Icons.search,
+                                color: Colors.black,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              hintText: 'Filter Location',
+                            ),
+                            onChanged: (value) {
+                              if (value.isNotEmpty) {
+                                context
+                                    .read<AZListCubit>()
+                                    .getList(cities, value);
+                              } else {
+                                context.read<AZListCubit>().getList();
+                              }
+                              context.read<LocationCubit>().getCities(value);
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: InkWell(
+                              onTap: () {
+                                searchController.clear();
+                                context.read<LocationCubit>().getCities();
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(Icons.close),
+                                  Text('Clear All'),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
                               child: Stack(
                             children: [
                               CitiesWidget(
@@ -232,12 +234,12 @@ class CitiesWithAZWidget extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          ));
-                        }
-                        return const Center(child: CircularProgressIndicator());
-                      },
-                    )
-                  ],
+                          )),
+                        ],
+                      );
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
                 ),
               );
       },

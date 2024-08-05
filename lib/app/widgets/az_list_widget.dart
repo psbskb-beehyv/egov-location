@@ -1,5 +1,5 @@
 import 'package:country_state_city/models/city.dart';
-import 'package:egov/app/cubit/get_az_list_cubit.dart';
+import 'package:egov/app/cubit/az_list_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,6 +25,8 @@ class AZListWidget extends StatelessWidget {
       );
     }
 
+    context.read<AZListCubit>().getList(cities, searchController.text);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: SizedBox(
@@ -41,7 +43,9 @@ class AZListWidget extends StatelessWidget {
                     int i = (cities.indexWhere((element) {
                       return (element.name[0].toLowerCase() == azList.first);
                     }));
-                    animateToIndex(i < 0 ? 0 : i);
+                    if (i >= 0) {
+                      animateToIndex(i);
+                    }
                   },
                   child: Text(
                     azList.first,
