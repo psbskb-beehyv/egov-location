@@ -4,7 +4,7 @@ import 'package:country_state_city/utils/utils.dart';
 class LocationHandler {
   static Future<List<City>> getLocation([String? name]) async {
     List<City> cities = await getAllCities();
-    List<City> subCities = cities.sublist(0, 500);
+    List<City> subCities = cities.sublist(0, 1000);
     List<City> filterCities = [];
     for (var city in subCities) {
       if (name != null && name != "") {
