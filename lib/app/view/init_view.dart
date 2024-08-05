@@ -15,7 +15,16 @@ class InitView extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.done) {
               return const HomeView();
             }
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('Initializing App Data...')
+              ],
+            ));
           }),
     );
   }

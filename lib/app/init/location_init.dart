@@ -8,7 +8,10 @@ class LocationInit {
 
   List<City> cities = [];
   Future<void> init() async {
-    cities = await getAllCities();
+    List<City> allCities = await getAllCities();
+    List<City> subCities = allCities.sublist(0, 10000);
+    subCities.sort((a, b) => a.name.compareTo(b.name));
+    cities = subCities;
     return;
   }
 }
